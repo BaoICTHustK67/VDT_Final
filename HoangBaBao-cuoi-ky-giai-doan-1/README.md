@@ -187,6 +187,9 @@ kubeadm token create --print-join-command
 
 Quá tuyệt vời cho một buổi cài đặt K8s qua kubeadm :)
 
+# II. Triển khai web application sử dụng các DevOps tools & practices
+
+
 
 
 
