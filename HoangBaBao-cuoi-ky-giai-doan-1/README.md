@@ -189,7 +189,33 @@ Quá tuyệt vời cho một buổi cài đặt K8s qua kubeadm :)
 
 # II. Triển khai web application sử dụng các DevOps tools & practices
 
+## K8S Helm Chart
 
+- Đầu tiên, ta cần cài helm để triển khai helm chart của ArgoCD bằng các câu lệnh sau
+
+```
+$ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+$ chmod 700 get_helm.sh
+$ ./get_helm.sh
+```
+
+- Kiểm tra xem helm đã cài thành công hay chưa bằng câu lệnh
+
+```
+helm version
+```
+
+- Bắt đầu triển khai argoCD lên cụm K8s bằng cách tạo một namespace riêng install file manifest sau
+
+```
+kubectl create namespace argocd
+
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+```
+
+- Ảnh chụp giao diện màn hình khi đã deploy thành công và expose qua NodePort
+
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/5ded34b4-f72b-4f84-88e0-bf7adc9bf5a0)
 
 
 
