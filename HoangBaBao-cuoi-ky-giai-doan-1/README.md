@@ -248,6 +248,12 @@ spec:
 
 ### Request 2:
 
+- Triển khai và exposed web thông qua NodePort
+
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/e25dc7d7-e94b-4283-9809-af45d79bfb5d)
+
+
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/a677fa25-16b7-4a82-abdb-b45ff626061a)
 
 
 
