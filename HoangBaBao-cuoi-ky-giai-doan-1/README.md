@@ -248,12 +248,36 @@ spec:
 
 ### Request 2:
 
+- Helm Chart sử dụng để triển khai web Deployment : https://github.com/BaoICTHustK67/VDT_frontend/tree/main/frontend
+
+- Helm Chart sử dụng để triển khai api Deployment : https://github.com/BaoICTHustK67/VDT_backend/tree/main/backend
+
 - Triển khai và exposed web thông qua NodePort
 
-![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/e25dc7d7-e94b-4283-9809-af45d79bfb5d)
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.appName }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.appName }}
+spec:
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: {{ .Values.port }} # 5173
+    nodePort: 31000
+  selector:
+    app: {{ .Values.appName }}
+    tier: frontend
+  type: NodePort
+```
 
 
 ![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/a677fa25-16b7-4a82-abdb-b45ff626061a)
+
+
 
 
 
