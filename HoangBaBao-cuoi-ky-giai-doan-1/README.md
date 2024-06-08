@@ -191,6 +191,8 @@ Quá tuyệt vời cho một buổi cài đặt K8s qua kubeadm :)
 
 ## K8S Helm Chart
 
+### Request 1:
+
 - Đầu tiên, ta cần cài helm để triển khai helm chart của ArgoCD bằng các câu lệnh sau
 
 ```
@@ -213,9 +215,40 @@ kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
 
+- Chờ khi deploy thành công bắt đầu expose ArgoCD thông qua service NodePort bằng file yaml có nội dung sau:
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: argocd-server
+  namespace: argocd
+spec:
+  type: NodePort
+  selector:
+    app.kubernetes.io/name: argocd-server
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+      nodePort: 30080
+```
+- port: 80 là port được exposed của cụm K8S thường để phục vụ http
+- targetPort: 8080 : khi traffic đi qua port của cụm K8S sẽ được redirect đến port này của argocd-server pod
+- nodePort: 30080: đấy là port exposed ra ở VM host cụm K8s và khi đi qua nodePort sẽ được redirect đến pod này
+=> NodePort(30080) => Cluster Port(80) => Pod Port(8080) 
+
+
+
 - Ảnh chụp giao diện màn hình khi đã deploy thành công và expose qua NodePort
 
 ![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/5ded34b4-f72b-4f84-88e0-bf7adc9bf5a0)
+
+- Link File Manifest để triển khai ArgoCD lên K8S: https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+### Request 2:
+
+
 
 
 
