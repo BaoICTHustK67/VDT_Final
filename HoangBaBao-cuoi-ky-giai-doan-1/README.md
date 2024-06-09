@@ -126,6 +126,7 @@ sudo systemctl enable kubelet.service
 ```
 
 #### 4. Cài đặt cụm Kubernetes trên Node master
+
 - Cài đặt K8s control plane với đầy đủ các component cần thiết bằng cách xử dụng một câu lệnh sau
 
 ```
@@ -134,8 +135,15 @@ sudo kubeadm config images pull
 
 - Chỉ định dải mạng cho pod đảm bảo rằng các pod có thể communicate với nhau một cách dễ dàng
 
+- Dải mạng của calico => sẽ không hoạt động ở các VM trên cloud khi mà clusterIP thường dc assign với dạng 10.x.x.x   
+
 ```
 sudo kubeadm init --pod-network-cidr=192.168.0.0/16
+```
+
+- Dải mạng của flannel => hoạt động được trên các VM ở cloud (Đây là dải mạng sẽ được sử dụng)
+```
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16
 ```
 
 - Cài đặt file config .kube với config của cụm và cập nhật để đảm bảo rầng mình có đủ quyền để sửa
@@ -150,7 +158,10 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 ![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/6ff1d794-d3bf-4a4f-acee-3d8771833437)
 
-#### 5. Cài Network Plugin thích hợp (Calico)
+#### 5. Cài Network Plugin thích hợp (Calico hỗ trợ máy ảo local, không hỗ trợ cho cloud) => (Flannel hỗ trợ cho cloud)
+
+- Việc cài Calico khiến em tốn tận 2 ngày ngồi debug và mày mò network trước khi nhận ra nó không hỗ trợ cloud nên ví dụ dưới đây sẽ chỉ áp dụng cho việc cài máy ảo ở local
+ 
 - Deploy Calico operator sử dụng
 
 ```
@@ -168,6 +179,17 @@ curl https://raw.githubusercontent.com/projectcalico/calico/v3.26.1/manifests/cu
 ```
 kubectl create -f custom-resources.yaml
 ```
+
+- Cài đặt triển khai cho các VM trên cloud với cluster IP của pod 10.x.x.x thì ta sẽ sử dụng Flannel nếu không sẽ không thể tạo connection giữa các pod vì khác private network của pod (10.x.x.x và 192.168.x.x)
+
+- Chỉ đơn giản bằng 1 câu lệnh ta sẽ cài xong flannel
+
+```
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+```
+
+
 
 #### 6. Add worker nodes vào cụm
 
@@ -193,21 +215,7 @@ Quá tuyệt vời cho một buổi cài đặt K8s qua kubeadm :)
 
 ### Request 1:
 
-- Đầu tiên, ta cần cài helm để triển khai helm chart của ArgoCD bằng các câu lệnh sau
-
-```
-$ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-$ chmod 700 get_helm.sh
-$ ./get_helm.sh
-```
-
-- Kiểm tra xem helm đã cài thành công hay chưa bằng câu lệnh
-
-```
-helm version
-```
-
-- Bắt đầu triển khai argoCD lên cụm K8s bằng cách tạo một namespace riêng install file manifest sau
+- Bắt đầu triển khai argoCD lên cụm K8s bằng cách tạo một namespace riêng và install file manifest sau
 
 ```
 kubectl create namespace argocd
@@ -238,11 +246,19 @@ spec:
 - nodePort: 30080: đấy là port exposed ra ở VM host cụm K8s và khi đi qua nodePort sẽ được redirect đến pod này
 => NodePort(30080) => Cluster Port(80) => Pod Port(8080) 
 
+- Kiểm tra việc exposed bằng việc xem các service thông qua
+```
+kubectl get svc -n argocd
+```
+
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/bbe632b2-52d5-47e8-9347-d800e035bc2c)
+
 
 
 - Ảnh chụp giao diện màn hình khi đã deploy thành công và expose qua NodePort
 
-![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/5ded34b4-f72b-4f84-88e0-bf7adc9bf5a0)
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/0645ed9c-8206-4b97-a746-1e79117cb562)
+
 
 - Link File Manifest để triển khai ArgoCD lên K8S: https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
@@ -253,26 +269,6 @@ spec:
 - Helm Chart sử dụng để triển khai api Deployment : https://github.com/BaoICTHustK67/VDT_backend/tree/main/backend
 
 - Triển khai và exposed web thông qua NodePort
-
-```
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ .Values.appName }}
-  namespace: {{ .Values.namespace }}
-  labels:
-    app: {{ .Values.appName }}
-spec:
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: {{ .Values.port }} # 5173
-    nodePort: 31000
-  selector:
-    app: {{ .Values.appName }}
-    tier: frontend
-  type: NodePort
-```
 
 
 ![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/a677fa25-16b7-4a82-abdb-b45ff626061a)
