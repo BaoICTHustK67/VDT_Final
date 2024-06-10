@@ -264,16 +264,69 @@ kubectl get svc -n argocd
 
 ### Request 2:
 
+#### Repo chứa Helm Chart và values.yaml (2 repo Helm Chart, 2 repo config values.yaml) cho web và api
+
 - Helm Chart sử dụng để triển khai web Deployment : https://github.com/BaoICTHustK67/VDT_frontend/tree/main/frontend
+
+- Repo chứa file values.yaml của web: https://github.com/BaoICTHustK67/web_values
 
 - Helm Chart sử dụng để triển khai api Deployment : https://github.com/BaoICTHustK67/VDT_backend/tree/main/backend
 
-- Triển khai và exposed web thông qua NodePort
+- Repo chứa file values.yaml của api:
+
+#### Manifest của ArgoCD Application
+
+- web:
+
+```
+project: default
+destination:
+  server: 'https://kubernetes.default.svc'
+  namespace: helm-guestbook-multisource
+syncPolicy:
+  automated:
+    prune: true
+    selfHeal: true
+  syncOptions:
+    - CreateNamespace=true
+sources:
+  - repoURL: 'https://github.com/BaoICTHustK67/VDT_frontend'
+    path: frontend
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+        - $values/values.yaml
+  - repoURL: 'https://github.com/BaoICTHustK67/web_values'
+    targetRevision: HEAD
+    ref: values
+```
+
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/e9677d51-a650-4442-aebb-459e8c1f32e1)
+
+- api:
 
 
-![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/a677fa25-16b7-4a82-abdb-b45ff626061a)
+#### Ảnh chụp giao diện 
+
+- Màn hình hệ thống ArgoCD trên trình duyệt (Public có sự thay đổi do với lần cài ArgoCD là do em đã tắt và bật lại VM trên EC2 để tiết kiệm chi phí khi không dùng nên public address mới sẽ được assign)
+
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/5c543940-8553-40b1-bbb3-d1fb278bcecf)
 
 
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/c09847bc-9ffe-45a2-9398-71def6ba96c7)
+
+
+
+- Khi truy cập vào Web URL exposed qua NodePort:
+
+
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/b432ce5f-e549-4276-9e73-22460aef23d0)
+
+
+
+- Khi truy cập vào API URL exposed qua NodePort:
+
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/7800d403-ed38-41b7-8176-08a164132e70)
 
 
 
