@@ -313,8 +313,7 @@ sources:
 ![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/5c543940-8553-40b1-bbb3-d1fb278bcecf)
 
 
-![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/c09847bc-9ffe-45a2-9398-71def6ba96c7)
-
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/e9eb693c-133f-4772-bd8e-7e28eed030cc)
 
 
 - Khi truy cập vào Web URL exposed qua NodePort:
