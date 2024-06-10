@@ -496,13 +496,12 @@ jobs:
 
 ### Output log của 2 luồng CD khi tạo tag mới trên repo web và repo api
 
-- Log luồng chạy CD trên repo web: https://productionresultssa10.blob.core.windows.net/actions-results/c80c2992-32f3-4731-b821-4e6fc173f5a9/workflow-job-run-ef53817e-be1e-5b9f-8d47-e63fd9dfbe04/logs/job/job-logs.txt?rsct=text%2Fplain&se=2024-06-10T17%3A07%3A38Z&sig=S8h1dKH7YgIwxfXE6UPpKZvqQpbAiZh0EfV0%2B839%2BjM%3D&ske=2024-06-11T04%3A54%3A29Z&skoid=ca7593d4-ee42-46cd-af88-8b886a2f84eb&sks=b&skt=2024-06-10T16%3A54%3A29Z&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skv=2023-11-03&sp=r&spr=https&sr=b&st=2024-06-10T16%3A57%3A33Z&sv=2023-11-03
+- Log luồng chạy CD trên repo web: https://github.com/BaoICTHustK67/VDT_frontend/actions/runs/9453019581/job/26037449571
 
 ![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/45125cd2-c354-4ad1-b60d-921230876326)
 
 
-- Log luồng chạy CD trên repo api: https://productionresultssa6.blob.core.windows.net/actions-results/e643d2d8-e011-4b3b-93d3-bcb83aa536c6/workflow-job-run-ef53817e-be1e-5b9f-8d47-e63fd9dfbe04/logs/job/job-logs.txt?rsct=text%2Fplain&se=2024-06-10T18%3A14%3A02Z&sig=TtfHXT9AFvooZ8ta0gPs9kbyWZ7xbOja70H5Ovyzc9g%3D&ske=2024-06-11T04%3A48%3A30Z&skoid=ca7593d4-ee42-46cd-af88-8b886a2f84eb&sks=b&skt=2024-06-10T16%3A48%3A30Z&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skv=2023-11-03&sp=r&spr=https&sr=b&st=2024-06-10T18%3A03%3A57Z&sv=2023-11-03
-
+- Log luồng chạy CD trên repo api: https://github.com/BaoICTHustK67/VDT_backend/actions/runs/9453225741/job/26038154868
 ![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/d6325a96-0927-4dbc-a987-b67bcf2a13a7)
 
 
