@@ -357,9 +357,88 @@ sources:
 
 ## III. Continuous Delivery
 
+### File Setup công cụ của 2 luồng CD
+
+- File Setup CD cho web: https://github.com/BaoICTHustK67/VDT_frontend/blob/main/.github/workflows/deploy.yml
+
+```
+name: Deploy
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build-and-deploy:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Extract tag name
+        id: extract_tag
+        run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t baofci/reactjs:${{ env.TAG }} .
+          docker push baofci/reactjs:${{ env.TAG }}
+
+      - name: Checkout config repository
+        uses: actions/checkout@v3
+        with:
+          repository: BaoICTHustK67/web_values
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: .
+          
+
+      - name: Commit and push changes
+        run: |
+          git clone https://user:$GITHUB_TOKEN@github.com/BaoICTHustK67/web_values
+          cd web_values
+
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'bachdtm169@gmail.com'
+
+          sed -i "s/^  tag: .*/  tag: ${{ env.TAG }}/" values.yaml
+
+          git add values.yaml
+          git commit -m "Update image version to ${{ env.TAG }}"
+
+          git remote -v
+
+          git push --set-upstream origin main
+          git push --set-upstream https://user:$GITHUB_TOKEN@github.com/BaoICTHustK67/web_values main
+        env:
+          GITHUB_TOKEN: ${{ secrets.WEB_TOKEN }}
+
+```
+
+- File Setup CD cho api: 
+
+### Output log của 2 luồng CD khi tạo tag mới trên repo web và repo api
+
+- Log luồng chạy trên repo web: https://productionresultssa10.blob.core.windows.net/actions-results/c80c2992-32f3-4731-b821-4e6fc173f5a9/workflow-job-run-ef53817e-be1e-5b9f-8d47-e63fd9dfbe04/logs/job/job-logs.txt?rsct=text%2Fplain&se=2024-06-10T17%3A07%3A38Z&sig=S8h1dKH7YgIwxfXE6UPpKZvqQpbAiZh0EfV0%2B839%2BjM%3D&ske=2024-06-11T04%3A54%3A29Z&skoid=ca7593d4-ee42-46cd-af88-8b886a2f84eb&sks=b&skt=2024-06-10T16%3A54%3A29Z&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skv=2023-11-03&sp=r&spr=https&sr=b&st=2024-06-10T16%3A57%3A33Z&sv=2023-11-03
+
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/45125cd2-c354-4ad1-b60d-921230876326)
 
 
+- Log luồng chạy trên repo api:
 
+### Hình ảnh app triển khai ArgoCD
 
 
 
