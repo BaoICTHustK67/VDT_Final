@@ -336,22 +336,25 @@ sources:
 
 - Màn hình hệ thống ArgoCD trên trình duyệt (Public có sự thay đổi do với lần cài ArgoCD là do em đã tắt và bật lại VM trên EC2 để tiết kiệm chi phí khi không dùng nên public address mới sẽ được assign)
 
-![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/5c543940-8553-40b1-bbb3-d1fb278bcecf)
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/bd635786-aad4-4feb-8cef-c4316588cd2e)
 
 
-![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/e9eb693c-133f-4772-bd8e-7e28eed030cc)
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/394ecea2-fb34-4c03-801a-457aa384762c)
+
 
 
 - Khi truy cập vào Web URL exposed qua NodePort:
 
 
-![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/b432ce5f-e549-4276-9e73-22460aef23d0)
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/cf9c9a34-625b-4686-9a9f-f02c632ef7d5)
+
 
 
 
 - Khi truy cập vào API URL exposed qua NodePort:
 
-![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/7800d403-ed38-41b7-8176-08a164132e70)
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/4ce31d11-982f-4612-a8fb-73574cd6c19b)
+
 
 
 
