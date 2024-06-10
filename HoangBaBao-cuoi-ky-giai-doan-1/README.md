@@ -272,7 +272,7 @@ kubectl get svc -n argocd
 
 - Helm Chart sử dụng để triển khai api Deployment : https://github.com/BaoICTHustK67/VDT_backend/tree/main/backend
 
-- Repo chứa file values.yaml của api:
+- Repo chứa file values.yaml của api: https://github.com/BaoICTHustK67/api_values
 
 #### Manifest của ArgoCD Application
 
@@ -282,7 +282,7 @@ kubectl get svc -n argocd
 project: default
 destination:
   server: 'https://kubernetes.default.svc'
-  namespace: helm-guestbook-multisource
+  namespace: vdt-web
 syncPolicy:
   automated:
     prune: true
@@ -304,6 +304,32 @@ sources:
 ![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/e9677d51-a650-4442-aebb-459e8c1f32e1)
 
 - api:
+```
+project: default
+destination:
+  server: 'https://kubernetes.default.svc'
+  namespace: vdt-api
+syncPolicy:
+  automated:
+    prune: true
+    selfHeal: true
+  syncOptions:
+    - CreateNamespace=true
+sources:
+  - repoURL: 'https://github.com/BaoICTHustK67/VDT_backend'
+    path: backend
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+        - $values/values.yaml
+  - repoURL: 'https://github.com/BaoICTHustK67/api_values'
+    targetRevision: HEAD
+    ref: values
+
+```
+
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/7c7a56df-b159-45c2-8021-416da4e8b4bb)
+
 
 
 #### Ảnh chụp giao diện 
