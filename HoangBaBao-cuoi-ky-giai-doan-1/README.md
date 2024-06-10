@@ -427,7 +427,72 @@ jobs:
 
 ```
 
-- File Setup CD cho api: 
+- File Setup CD cho api: https://github.com/BaoICTHustK67/VDT_backend/blob/main/.github/workflows/deploy.yml
+
+```
+name: Deploy
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build-and-deploy:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Extract tag name
+        id: extract_tag
+        run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t baofci/app:${{ env.TAG }} .
+          docker push baofci/app:${{ env.TAG }}
+
+      - name: Checkout config repository
+        uses: actions/checkout@v3
+        with:
+          repository: BaoICTHustK67/api_values
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: .
+          
+
+      - name: Commit and push changes
+        run: |
+          git clone https://user:$GITHUB_TOKEN@github.com/BaoICTHustK67/api_values
+          cd api_values
+
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'bachdtm169@gmail.com'
+
+          sed -i "s/^  tag: .*/  tag: ${{ env.TAG }}/" values.yaml
+
+          git add values.yaml
+          git commit -m "Update image version to ${{ env.TAG }}"
+
+          git remote -v
+
+          git push --set-upstream origin main
+          git push --set-upstream https://user:$GITHUB_TOKEN@github.com/BaoICTHustK67/api_values main
+        env:
+          GITHUB_TOKEN: ${{ secrets.WEB_TOKEN }}
+```
 
 ### Output log của 2 luồng CD khi tạo tag mới trên repo web và repo api
 
