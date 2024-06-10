@@ -440,6 +440,27 @@ jobs:
 
 ### Hình ảnh app triển khai ArgoCD
 
+- Web:
+
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/cd02db4d-0682-44ea-bbe9-fbb456309272)
+
+- Hình ảnh diff khi ArgoCD phát hiện thay đổi ở file config của web
+
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/7124d734-e2e2-4cf1-a533-7a18acb6dd73)
+
+
+- App:
+
+### Hình ảnh event diễn ra trong các deployment
+
+- Web:
+
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/b7bc2df6-c6ba-4993-8f50-bfcec8df2344)
+
+
+
+
+
 
 
 
