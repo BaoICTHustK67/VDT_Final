@@ -542,7 +542,7 @@ jobs:
 
 ### File setup để triển khai Prometheus lên Kubernetes Cluster
 
-Link: https://github.com/BaoICTHustK67/prometheus_k8s_setup
+- Link: https://github.com/BaoICTHustK67/prometheus_k8s_setup
 
 ### Hình ảnh khi truy cập vào Prometheus UI thông qua trình duyệt
 
