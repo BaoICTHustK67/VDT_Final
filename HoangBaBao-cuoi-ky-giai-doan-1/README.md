@@ -538,8 +538,15 @@ jobs:
 ![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/9a6388f6-f728-4b87-a857-706dcc9c1040)
 
 
+## IV. Monitoring
 
+### File setup để triển khai Prometheus lên Kubernetes Cluster
 
+Link: https://github.com/BaoICTHustK67/prometheus_k8s_setup
+
+### Hình ảnh khi truy cập vào Prometheus UI thông qua trình duyệt
+
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/7af0101a-8d82-4618-87d5-26b86882099d)
 
 
 
