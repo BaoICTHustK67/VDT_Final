@@ -549,6 +549,9 @@ jobs:
 ![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/7af0101a-8d82-4618-87d5-26b86882099d)
 
 
+### Hình ảnh danh sách target của Web Deployment và API Deployment được giám sát bởi Prometheus thông qua Service Monitor
+
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/ce61f008-ffb8-4543-8936-237c2c30152b)
 
 
 
