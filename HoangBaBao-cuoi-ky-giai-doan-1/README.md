@@ -685,6 +685,15 @@ sudo systemctl restart haproxy
 sudo systemctl enable haproxy
 ```
 
+- File cấu hình ingress hoặc file cấu hình deployment sau khi thêm HAProxy sidecar container vào Deployment
+- Web:
+  - Deployment: https://github.com/BaoICTHustK67/VDT_frontend/blob/main/frontend/templates/1-deployment.yaml
+  - Service: https://github.com/BaoICTHustK67/VDT_frontend/blob/main/frontend/templates/2-service.yaml
+- Api:  
+  - Deployment: https://github.com/BaoICTHustK67/VDT_backend/blob/main/backend/templates/1-deployment.yaml
+  - Service: https://github.com/BaoICTHustK67/VDT_backend/blob/main/backend/templates/2-service.yaml 
+
+
 - Truy cập trang Web sử dụng https
 
 ![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/bc2fd260-af4e-4014-857a-29a770ad1aee)
