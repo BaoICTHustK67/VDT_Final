@@ -596,6 +596,107 @@ kubectl apply -f daemonset.yaml
 
 ## VI. Security
 
+### Yêu cầu 1:
+
+- Vào VM mới tạo và cài đặt HAProxy bằng câu lệnh sau:
+
+```
+sudo apt-get update
+sudo apt-get install haproxy
+```
+
+- Tự tạo một self-signed certificate và key
+
+```
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/haproxy-selfsigned.key -out /etc/ssl/certs/haproxy-selfsigned.crt -subj "/CN=example.com/O=example.com"
+
+```
+
+- Lưu key và cert sinh ra vào cùng 1 file
+
+```
+sudo bash -c 'cat /etc/ssl/private/haproxy-selfsigned.key /etc/ssl/certs/haproxy-selfsigned.crt > /etc/ssl/private/haproxy-selfsigned.pem'
+```
+
+- Cấu hình file /etc/haproxy/haproxy.cfg như sau:
+
+```
+global
+    log /dev/log    local0
+    log /dev/log    local1 notice
+    chroot /var/lib/haproxy
+    stats socket /run/haproxy/admin.sock mode 660 level admin
+    stats timeout 30s
+    user haproxy
+    group haproxy
+    daemon
+
+    # Default SSL material locations
+    ca-base /etc/ssl/certs
+    crt-base /etc/ssl/private
+
+    # See: https://ssl-config.mozilla.org/#server=haproxy&server-version=2.0.3&config=intermediate
+    ssl-default-bind-ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384
+    ssl-default-bind-ciphersuites TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
+    ssl-default-bind-options ssl-min-ver TLSv1.2 no-tls-tickets
+
+defaults
+    log     global
+    mode    http
+    option  httplog
+    option  dontlognull
+    timeout connect 5000ms
+    timeout client  50000ms
+    timeout server  50000ms
+    errorfile 400 /etc/haproxy/errors/400.http
+    errorfile 403 /etc/haproxy/errors/403.http
+    errorfile 408 /etc/haproxy/errors/408.http
+    errorfile 500 /etc/haproxy/errors/500.http
+    errorfile 502 /etc/haproxy/errors/502.http
+    errorfile 503 /etc/haproxy/errors/503.http
+    errorfile 504 /etc/haproxy/errors/504.http
+
+frontend web_front
+    bind *:443 ssl crt /etc/ssl/private/haproxy-selfsigned.pem
+    mode http
+    default_backend web_back
+
+frontend api_front
+    bind *:444 ssl crt /etc/ssl/private/haproxy-selfsigned.pem
+    mode http
+    default_backend api_back
+
+backend web_back
+    mode http
+    balance roundrobin
+    server web1 18.209.152.139:31000 check
+
+backend api_back
+    mode http
+    balance roundrobin
+    server api1 18.209.152.139:32552 check
+
+```
+
+- Khởi động lại HAProxy
+
+```
+sudo systemctl restart haproxy
+sudo systemctl enable haproxy
+```
+
+- Truy cập trang Web sử dụng https
+
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/bc2fd260-af4e-4014-857a-29a770ad1aee)
+
+- Truy cập Api sử dụng https
+
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/14ed1bc4-f12a-4a5c-b8ee-ae34f485e9eb)
+
+
+
+
+
 ### Yêu cầu 3:
 
 - Với backend sử dụng Flask, ta có thể đơn giản hóa việc Rate Limit bằng cách sử dụng thư viện Flask-Limiter
