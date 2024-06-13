@@ -594,6 +594,45 @@ kubectl apply -f daemonset.yaml
 ![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/5a6d3ce2-fd72-45ed-8cc2-719837b5dbb1)
 
 
+## VI. Security
+
+### Yêu cầu 3:
+
+- Với backend sử dụng Flask, ta có thể đơn giản hóa việc Rate Limit bằng cách sử dụng thư viện Flask-Limiter
+
+```
+pip install Flask-Limiter
+
+```
+
+- Import những hàm cần thiết để setup Limiter
+
+```
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+```
+
+- Thiết lập Limiter 10 request/ phút
+
+```
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["10 per minute"]
+)
+```
+
+- Trả về HTTP Response 409 khi gọi quá 10 lần request / phút
+
+```
+@app.errorhandler(429)
+def ratelimit_error(e):
+    return jsonify(error="ratelimit exceeded", message=str(e.description)), 409
+```
+
+- Kết quả thử nghiệm khi gọi quá 10 request trong 1 phút vào Endpoint của API Service
+
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/95a1118b-57c4-4f89-9701-21f10d8b589e)
 
 
 
