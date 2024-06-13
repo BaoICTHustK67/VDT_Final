@@ -630,10 +630,16 @@ def ratelimit_error(e):
     return jsonify(error="ratelimit exceeded", message=str(e.description)), 409
 ```
 
-- Kết quả thử nghiệm khi gọi quá 10 request trong 1 phút vào Endpoint của API Service
+- Kết quả thử nghiệm khi gọi quá 10 request trong 1 phút vào Endpoint của API Service trên Local
 
 ![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/95a1118b-57c4-4f89-9701-21f10d8b589e)
 
+
+- Kết quả thử nghiệm khi gọi vào publicIP
+
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/0ca6e387-c639-4cef-9158-e9a5a8594e2b)
+
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/063f9bfe-8d80-4b90-9767-8702e1a0448f)
 
 
 
