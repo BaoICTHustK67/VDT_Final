@@ -554,5 +554,37 @@ jobs:
 ![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/ce61f008-ffb8-4543-8936-237c2c30152b)
 
 
+## V. Logging
+
+### Cài đặt triên khai fluentbit lên Kubernetes
+
+- Link các file triển khai fluentbit: https://github.com/BaoICTHustK67/Logging
+
+- Tạo namespace phục vụ riêng cho việc logging bằng câu lệnh : kubectl apply -f namespace.yaml
+
+- Tạo serviceaccount với với clusterrole tương ứng để trao quyền cho fluentbit giám sát các pod của web service và api service : kubectl apply -f serviceaccount.yaml
+
+- Tạo config map với các config cho DaemonSet khi triển khai fluentbit để có thể ghi nhận log và bắn lên server ElasticSearch: kubectl apply -f configmap.yaml
+
+- Triển khai fluentbit với DaemonSet để theo dõi logging : kubectl apply -f daemonset.yaml
+
+### Hình ảnh chụp màn hình Kibana log của Service Api
+
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/614ac424-25f0-46d3-bc81-93564e3d6311)
+
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/91a7283b-8ae6-41f3-a7b6-bd2e20ddc12f)
+
+
+
+
+### Hình ảnh chụp màn hình Kibana log của Service Web
+
+![image](https://github.com/BaoICTHustK67/VDT_Final/assets/123657319/5a6d3ce2-fd72-45ed-8cc2-719837b5dbb1)
+
+
+
+
+
+
 
  
